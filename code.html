@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <style>
+  .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+  body{
+  background-color:grey;
+  color:white;
+  }
+  input{
+  background-color:black;
+  color:white;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+ Toggle Dark Theme :
+ <label class="switch">
+  <input type="checkbox">
+  <span class="slider round" onclick="toggle()"></span>
+</label>
+ 
+ 
+ 
+ <br/>
+  Course Name:<br>
+  <input type="text" id="Course" name="Course"><br>
+  Grades:<br>
+  <input type="number" id="Grade" name="Grade" min="0" max="100" required><br>
+  <button type="button" id="submit"  class="btn btn-success">Submit</button>
+
+
+ 
+  
+
+  
+
+  <h2>Course List</h2>
+  <p></p>            
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Course</th>
+        <th>Grade</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody class="tableBody">
+    </tbody>
+  </table>
+  
+  
+  
+  
+  <button type="button" id="Avg" onclick="avg()" class="btn btn-info">Avg</button><span class="avgdisplay"></span>
+  <button type="button" id="Min" onclick="min()" class="btn btn-info">Min</button><span class="mindisplay"></span>
+  <button type="button" id="Max" onclick="max()" class="btn btn-info">Max</button><span class="maxdisplay"></span>
+</div>
+  <script type="text/babel">
+
+
+  </script>
+
+  <script type="text/javascript">
+	var list= ["",0];
+	var gradesAvg = new Array();
+	var avg;
+	var count=0;
+	document.getElementById("submit").addEventListener("click", function(){  
+		if($('#Course').val() == "" || $('#Course').val() == null){
+		 alert("Error course name blank");
+		}
+		else if($('#Grade').val() <= 0 || $('#Grade').val() >= 100){
+		 alert("Error grade must be between 0-100");
+		}else{
+		var grade = $('#Grade').val();
+		var course = $('#Course').val();
+		var string = "<tr><td>"+course+"</td><td class=\'grade\'>"+grade+"</td><td><button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteRow("+course+","+grade+")\'>Delete</button></td></tr>";
+		//console.log(string);
+		$(".tableBody").append(string);
+		
+		}
+		
+		
+		
+    });
+	
+	function deleteRow(course,grade){
+		console.log("delete activated");
+		$( "tr:contains('"+course+"')" ).remove();
+	}
+	
+	
+	function avg(){
+	$.each($(".grade"), function( index, value ) {
+    //alert( index + ": " + value );
+    gradesAvg.push($(value).text());
+	});
+	
+	$.each(gradesAvg, function( index, value ) {
+    avg += value;
+	});
+	var avgString = "Average: "+(parseInt(avg)/parseInt(gradesAvg.length));
+	$(".avgdisplay").append(avgString);
+	}
+	
+	function min(){
+	$.each($(".grade"), function( index, value ) {
+    //alert( index + ": " + value );
+    gradesAvg.push($(value).text());
+	});
+	
+	$.each(gradesAvg, function( index, value ) {
+    avg += value;
+	});
+	var avgString = "Average: "+(parseInt(avg)/parseInt(gradesAvg.length));
+	$(".avgdisplay").append(avgString);
+	
+	}	
+	
+	
+	function max(){
+	$.each($(".grade"), function( index, value ) {
+    //alert( index + ": " + value );
+    gradesAvg.push($(value).text());
+	});
+	
+	$.each(gradesAvg, function( index, value ) {
+    avg += value;
+	});
+	var avgString = "Average: "+(parseInt(avg)/parseInt(gradesAvg.length));
+	$(".avgdisplay").append(avgString);
+	
+	}
+	
+	function toggle(){
+	if(count%2 == 0){
+	$("body").css("background-color","grey");
+	$("body").css("color","white");
+	$("input").css("background-color","black");
+	$("input").css("color","white");
+	count++;
+	}else{
+	
+	$("body").css("background-color","white");
+	$("body").css("color","black");
+	$("input").css("background-color","white");
+	$("input").css("color","black");
+	count++;
+	}
+	}
+  </script>
+  
+</body>
+</html>
